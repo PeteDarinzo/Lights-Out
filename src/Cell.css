@@ -1,0 +1,16 @@
+.Cell {
+  height: 100px;
+  width: 100px;
+  background-color: rgb(0, 45, 0);
+  cursor: pointer;
+}
+
+.Cell-lit {
+  background-color: greenyellow;
+  box-shadow: 
+  0 0 30px greenyellow,
+  inset 0 0 10px white,
+  inset 0 0 50px darkgreen;
+  transition: transform 250ms linear;
+} 
+
