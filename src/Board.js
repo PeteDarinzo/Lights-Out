@@ -53,6 +53,7 @@ function Board({ nrows = 5, ncols = 5 }) {
      * this ensures that there is always a solution to the board, and is scalable to boards of any size
      * in theory, the player only has to repeat the sequences of button presses leading to the current configuration
      * 25 random toggles arbitrarily chosen
+     * https://dc.ewu.edu/cgi/viewcontent.cgi?referer=https://www.google.com/&httpsredir=1&article=1166&context=theses
      */
     for (let i = 0; i < 25; i++) {
       let y = Math.floor(Math.random() * nrows);
@@ -78,6 +79,8 @@ function Board({ nrows = 5, ncols = 5 }) {
       };
 
       // Make a (deep) copy of the oldBoard
+      // using JSON functions is one method to make a deep copy of a nested array
+      // https://dev.to/samanthaming/how-to-deep-clone-an-array-in-javascript-3cig
       let newBoard = JSON.parse(JSON.stringify(board));
 
       // in the copy, flip this cell and the cells around it
@@ -109,8 +112,8 @@ function Board({ nrows = 5, ncols = 5 }) {
   if (hasWon()) {
     return (
       <div className="Board">
-        <h1 ><span className="Board-win">You WIN!</span></h1>
-        <button className="Board-reset" onClick={reset}>Play Again???</button>
+        <h1 className="Board-header"><span className="Board-win">YOU WIN!</span></h1>
+        <button className="Board-reset" onClick={reset}>Play Again?</button>
       </div>
     );
   }

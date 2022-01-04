@@ -6,17 +6,27 @@
 .Board-title {
   color: rgb(255, 250, 200);
   text-shadow: 0 0 30px white;
+  font-size: 3rem;
+}
+
+.Board-header {
+  margin: 10%;
 }
 
 .Board-win {
-  color: white;
+  color: rgb(255, 250, 200);
+  text-shadow: 0 0 30px white;
+  font-size: 3rem;
   padding: 10px;
-  margin: 0 auto;
+  margin: 50% auto;
   border: solid white 5px;
-  max-height: 500px;
 }
 
 .Board-reset {
-  height: 75px;
-  width: 100px
+  height: 150px;
+  width: 150px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: lightgreen;
+  font-size: 2rem;
 }

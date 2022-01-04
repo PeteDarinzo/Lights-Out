@@ -18,11 +18,11 @@ afterEach(function () {
   Math.random.mockRestore();
 });
 
-it("renders without crashing", () => {
+it("renders the board without crashing", () => {
   render(<Board />);
 });
 
-it("matches the snapshot", () => {
+it("matches the board snapshot", () => {
   const { asFragment } = render(<Board />);
   expect(asFragment()).toMatchSnapshot();
 });
