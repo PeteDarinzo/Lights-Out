@@ -37,20 +37,33 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0.5 }) {
     for (let i = 0; i < nrows; i++) {
       let row = [];
       for (let j = 0; j < ncols; j++) {
-        let randNum = (Math.random() * 1); // generate number between 0 and 1
-        let x = Math.round(10 * randNum) / 10;     // round to tenths
-        (x < chanceLightStartsOn) ? row.push(true) : row.push(false);
+        row.push(false);
       }
       initialBoard.push(row);
     }
+
+    const flipCell = (y, x) => {
+      if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
+        initialBoard[y][x] = !initialBoard[y][x];
+      }
+    }
+
+    for (let i = 0; i < 10; i++) {
+      let y = Math.floor(Math.random() * nrows);
+      let x = Math.floor(Math.random() * ncols);
+      flipCell(y, x);
+      flipCell(y, (x - 1));
+      flipCell(y, (x + 1));
+      flipCell((y - 1), x);
+      flipCell((y + 1), x);
+    }
+
     return initialBoard;
   }
 
-  function hasWon() {
-    // check the board in state to determine whether the player has won.
-    const lightOff = (light) => !light;
-    const rowOff = (row) => row.every(lightOff);
-    return board.every(rowOff);
+
+  function setInitial() {
+
   }
 
   function flipCellsAround(coord) {
@@ -78,6 +91,15 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0.5 }) {
       return newBoard;
     });
   }
+
+
+  function hasWon() {
+    // check the board in state to determine whether the player has won.
+    const lightOff = (light) => !light;
+    const rowOff = (row) => row.every(lightOff);
+    return board.every(rowOff);
+  }
+
 
   // if the game is won, just show a winning msg & render nothing else
   if (hasWon()) {
