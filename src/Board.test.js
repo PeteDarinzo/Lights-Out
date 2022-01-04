@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import Board from './Board';
 
 
@@ -8,15 +8,7 @@ import Board from './Board';
 beforeEach(function () {
   jest
     .spyOn(Math, "random")
-    .mockReturnValueOnce(0.1)
-    .mockReturnValueOnce(0.9)
-    .mockReturnValueOnce(0.1)
-    .mockReturnValueOnce(0.9)
-    .mockReturnValueOnce(0.1)
-    .mockReturnValueOnce(0.9)
-    .mockReturnValueOnce(0.1)
-    .mockReturnValueOnce(0.9)
-    .mockReturnValueOnce(0.1);
+    .mockReturnValue(0.1);
 });
 
 /**
@@ -32,11 +24,33 @@ it("renders without crashing", () => {
 
 it("matches the snapshot", () => {
   const { asFragment } = render(<Board />);
-  console.log();
   expect(asFragment()).toMatchSnapshot();
 });
 
-// it("responds to a cell click", () => {
+it("responds to a cell click", () => {
+  const { queryByTestId } = render(<Board />);
 
-// })
+  const testCell = queryByTestId("2-2");
+  const aboveCell = queryByTestId("1-2")
+  const leftCell = queryByTestId("2-1")
+  const rightCell = queryByTestId("2-3")
+  const belowCell = queryByTestId("3-2")
+
+  // ensure all cells are extinguished
+  expect(testCell).toHaveClass("Cell");
+  expect(testCell).not.toHaveClass("Cell-lit");
+  expect(aboveCell).not.toHaveClass("Cell-lit");
+  expect(belowCell).not.toHaveClass("Cell-lit");
+  expect(leftCell).not.toHaveClass("Cell-lit");
+  expect(rightCell).not.toHaveClass("Cell-lit");
+
+  fireEvent.click(testCell);
+
+  // ensure all cells are illuminated
+  expect(testCell).toHaveClass("Cell-lit");
+  expect(aboveCell).toHaveClass("Cell-lit");
+  expect(belowCell).toHaveClass("Cell-lit");
+  expect(leftCell).toHaveClass("Cell-lit");
+  expect(rightCell).toHaveClass("Cell-lit");
+});
 

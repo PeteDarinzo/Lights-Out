@@ -1,11 +1,15 @@
 .Cell {
+  border-spacing: 10px;
   height: 100px;
   width: 100px;
   background-color: rgb(0, 45, 0);
+  /* box-shadow: 0 0 5px black; */
   cursor: pointer;
+  position: relative;
 }
 
 .Cell-lit {
+  z-index: 1000;
   background-color: greenyellow;
   box-shadow: 
   0 0 30px greenyellow,

@@ -1,4 +1,22 @@
-.Board {
-  margin: 5% auto;
-  border: solid black 5pxF;
+.Board-table {
+  margin: 2% auto;
+  background-color: black;
+}
+
+.Board-title {
+  color: rgb(255, 250, 200);
+  text-shadow: 0 0 30px white;
+}
+
+.Board-win {
+  color: white;
+  padding: 10px;
+  margin: 0 auto;
+  border: solid white 5px;
+  max-height: 500px;
+}
+
+.Board-reset {
+  height: 75px;
+  width: 100px
 }

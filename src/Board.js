@@ -27,13 +27,13 @@ import "./Board.css";
  *
  **/
 
-function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0.5 }) {
+function Board({ nrows = 5, ncols = 5 }) {
   const [board, setBoard] = useState(createBoard());
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
   function createBoard() {
     let initialBoard = [];
-    // create array-of-arrays of true/false values
+    // create nested false array
     for (let i = 0; i < nrows; i++) {
       let row = [];
       for (let j = 0; j < ncols; j++) {
@@ -48,7 +48,13 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0.5 }) {
       }
     }
 
-    for (let i = 0; i < 10; i++) {
+    /**
+     * randomly toggle cells, and surrounding cells
+     * this ensures that there is always a solution to the board, and is scalable to boards of any size
+     * in theory, the player only has to repeat the sequences of button presses leading to the current configuration
+     * 25 random toggles arbitrarily chosen
+     */
+    for (let i = 0; i < 25; i++) {
       let y = Math.floor(Math.random() * nrows);
       let x = Math.floor(Math.random() * ncols);
       flipCell(y, x);
@@ -57,13 +63,7 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0.5 }) {
       flipCell((y - 1), x);
       flipCell((y + 1), x);
     }
-
     return initialBoard;
-  }
-
-
-  function setInitial() {
-
   }
 
   function flipCellsAround(coord) {
@@ -92,18 +92,27 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0.5 }) {
     });
   }
 
-
   function hasWon() {
     // check the board in state to determine whether the player has won.
+    // a false nested array indicates a win
     const lightOff = (light) => !light;
     const rowOff = (row) => row.every(lightOff);
     return board.every(rowOff);
   }
 
+  // generate a new random board
+  function reset() {
+    setBoard(createBoard());
+  }
 
   // if the game is won, just show a winning msg & render nothing else
   if (hasWon()) {
-    alert("You win");
+    return (
+      <div className="Board">
+        <h1 ><span className="Board-win">You WIN!</span></h1>
+        <button className="Board-reset" onClick={reset}>Play Again???</button>
+      </div>
+    );
   }
 
   // make table board
@@ -117,16 +126,20 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0.5 }) {
         <Cell
           isLit={board[i][j]}
           flipCellsAroundMe={() => flipCellsAround(coord)}
-          key={coord} />
-      )
+          key={coord}
+          coord={coord} />
+      );
     }
     tableBoard.push(<tr key={i}>{row}</tr>);
   }
 
   return (
-    <table className="Board">
-      <tbody>{tableBoard}</tbody>
-    </table>
+    <div>
+      <h1 className="Board-title">LIGHTS OUT</h1>
+      <table className="Board-table">
+        <tbody>{tableBoard}</tbody>
+      </table>
+    </div>
   );
 }
 
